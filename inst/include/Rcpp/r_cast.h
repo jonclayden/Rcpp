@@ -57,7 +57,13 @@ namespace Rcpp{
             case INTSXP:
                 return Rf_coerceVector( x, RTYPE) ;
             default:
-                throw ::Rcpp::not_compatible( "not compatible with requested type" ) ;
+                std::stringstream ss;
+                ss << "Not compatible with requested type ("
+                   << Rf_type2char(TYPEOF(x))
+                   << " -> "
+                   << Rf_type2char(RTYPE)
+                   << ")";
+                throw ::Rcpp::not_compatible(ss.str());
             }
             return R_NilValue ; /* -Wall */
         }
